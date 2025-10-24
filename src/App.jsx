@@ -1,17 +1,21 @@
-import { useState } from 'react'
-import { Link,Outlet, useParams } from "react-router";
+import {useState, useEffect, createContext } from 'react'
+import { Link,Outlet } from "react-router";
+import { getProductsData } from './products.js';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 //import './App.css'
-import Home from './Home.jsx'
-import Men from './Men.jsx';
+
+const ProductsContext = createContext();
+
 
 function App() {
-  const {name} = useParams();
+  const products = useProducts();
   return (
     <>
     <NavBar />
-    <Outlet />
+    <ProductsContext.Provider value={products}>
+      <Outlet />
+    </ProductsContext.Provider>
   </>
   )
 }
@@ -21,8 +25,8 @@ function NavBar() {
     <nav>
       <ul>
         <li><Link to="/home">Home</Link></li>
-        <li><Link to="/men">Men</Link></li>
-        <li><Link to="/women">Women</Link></li>
+        <li><Link to="/clothes/men">Men</Link></li>
+        <li><Link to="/clothes/women">Women</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/contact">Contact</Link></li>
       </ul>
@@ -35,4 +39,13 @@ function NavBar() {
   );
 }
 
-export default App
+function useProducts() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProductsData().then(data => setProducts(data));
+  }, []);
+
+  return products;
+}
+export { App, ProductsContext };

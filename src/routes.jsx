@@ -1,8 +1,8 @@
 import { Children } from "react";
-import App from "./App";
+import {App} from "./App";
 import ErrorPage from "./ErrorPage";
 import Home from "./Home.jsx";
-import Men from "./Men.jsx";
+import Items from "./Items.jsx";
 
 const routes = [
   {
@@ -11,7 +11,7 @@ const routes = [
     children: [
         {index: true, element: <Home />},
         {path: "home", element: <Home />},
-        {path: "men", element: <Men />},
+        {path: "clothes/:category", element: <Items />},
     ],
     errorElement: <ErrorPage />,
   },
