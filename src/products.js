@@ -1,3 +1,4 @@
+import { set } from "react-hook-form";
 
 function product() {
   let id = "";
@@ -5,12 +6,15 @@ function product() {
   let price = 0;
   let category = "";
   let imageUrl = "";
+  let description = ""; 
+
 
   const getId = () => id;
   const getName = () => name;
   const getPrice = () => price;
   const getCategory = () => category;
   const getImageUrl = () => imageUrl;
+  const getDescription = () => description;
 
     const setId = (newId) => {
     id = newId;
@@ -27,6 +31,9 @@ function product() {
   const setImageUrl = (newImageUrl) => {
     imageUrl = newImageUrl;
   };
+  const setDescription = (newDescription) => {
+    description = newDescription;
+  };
 
   return {
     getId,
@@ -34,11 +41,13 @@ function product() {
     getPrice,
     getCategory,
     getImageUrl,
+    getDescription,
     setId,
     setName,
     setPrice,
     setCategory,
-    setImageUrl
+    setImageUrl,
+    setDescription
   };
 }
 
@@ -55,10 +64,10 @@ async function getProductsData() {
       newProduct.setPrice(item.price);
       newProduct.setCategory(item.category);
       newProduct.setImageUrl(item.image);
+      newProduct.setDescription(item.description);
       return newProduct;
     });
 
-    console.log("Products data fetched:", products);
     return products;
   } catch (error) {
     console.error("Error fetching product data:", error);
@@ -67,13 +76,25 @@ async function getProductsData() {
 
 }
 
-async function test() {
-  const response = await fetch('https://fakestoreapi.com/products/21');
-  const data = await response.json();
-  console.log(data);
-  console.log("Test function executed");
+async function getProductById(id) {
+  try {
+    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+
+    const data = await response.json();
+    const newProduct = product();
+    newProduct.setId(data.id);
+    newProduct.setName(data.title);
+    newProduct.setPrice(data.price);
+    newProduct.setCategory(data.category);
+    newProduct.setImageUrl(data.image);
+    newProduct.setDescription(data.description);
+    return newProduct;
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    return null;
+  }
 }
 
-getProductsData();
-
-export { product, getProductsData};
+getProductById(1);
+export { product, getProductsData, getProductById};

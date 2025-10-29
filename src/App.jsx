@@ -1,5 +1,5 @@
 import {useState, useEffect, createContext } from 'react'
-import { Link,Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import { getProductsData } from './products.js';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -7,17 +7,14 @@ import viteLogo from '/vite.svg'
 
 const ProductsContext = createContext();
 
+function useProducts() {
+  const [products, setProducts] = useState([]);
 
-function App() {
-  const products = useProducts();
-  return (
-    <>
-    <NavBar />
-    <ProductsContext.Provider value={products}>
-      <Outlet />
-    </ProductsContext.Provider>
-  </>
-  )
+  useEffect(() => {
+    getProductsData().then(data => setProducts(data));
+  }, []);
+
+  return products;
 }
 
 function NavBar() {
@@ -35,17 +32,18 @@ function NavBar() {
         <li><Link to="/login">Login</Link></li>
       </ul>
     </nav>
-
+  );
+}
+function App() {
+  const products = useProducts();
+  return (
+    <>
+      <NavBar />
+      <ProductsContext.Provider value={products}>
+        <Outlet />
+      </ProductsContext.Provider>
+    </>
   );
 }
 
-function useProducts() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    getProductsData().then(data => setProducts(data));
-  }, []);
-
-  return products;
-}
 export { App, ProductsContext };
