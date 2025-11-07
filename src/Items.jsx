@@ -1,4 +1,4 @@
-import {ProductsContext} from './App.jsx';
+import { ProductsContext } from './App.jsx';
 import { useParams, useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { getProductById } from './products.js';
@@ -7,14 +7,13 @@ import { useState, useEffect } from 'react';
 function Items() {
   const products = useContext(ProductsContext);
   const { category } = useParams();
-   const categoryMap = {
+  const categoryMap = {
     men: "men's clothing",
     women: "women's clothing",
   };
   return (
-    <div>
-      <h1>{categoryMap[category]}'s Collection</h1>
-      <p>Explore our exclusive range of {categoryMap[category]} products.</p>
+    <div className="items-page">
+      <h1>Explore our exclusive range of {categoryMap[category]} products.</h1>
       <div className="product-list">
         {filterProductsByCategory(products, categoryMap[category]).map(product => (
           <ProductItem key={product.getId()} name={product.getName()} price={product.getPrice()} imageUrl={product.getImageUrl()} id={product.getId()} />
@@ -28,15 +27,17 @@ function ProductItem({ name, price, imageUrl, id }) {
   return (
     <div className="product-item" onClick={() => navigate(`/product/${id}`)}>
       <img src={imageUrl} alt={name} />
-      <h2>{name}</h2>
-      <p>${price}</p>
+      <div className='info'>
+        <h2>{name}</h2>
+        <p>${price}</p>
+      </div>
     </div>
   );
 }
-function Item({name, price, imageUrl, description}) {
+function Item({ name, price, imageUrl, description }) {
   return (
     <div className="item-detail">
-      <img src={imageUrl} alt={name} /> 
+      <img src={imageUrl} alt={name} />
       <h1>{name}</h1>
       <p>${price}</p>
       <p>{description}</p>
@@ -67,9 +68,9 @@ function ProductDetail() {
   const product = useProductById2(id);
   if (!product) {
     return <div>Loading...</div>;
-  }     
+  }
   return (
-    <Item 
+    <Item
       name={product.getName()}
       price={product.getPrice()}
       imageUrl={product.getImageUrl()}
@@ -78,4 +79,4 @@ function ProductDetail() {
   );
 }
 
-export {ProductDetail, Items};
+export { ProductDetail, Items };

@@ -1,9 +1,9 @@
-import {useState, useEffect, createContext } from 'react'
-import { Link, Outlet } from "react-router";
+import { useState, useEffect, createContext } from 'react'
+import { Link, Outlet, NavLink } from "react-router";
 import { getProductsData } from './products.js';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-//import './App.css'
+import './App.css'
 
 const ProductsContext = createContext();
 
@@ -20,16 +20,43 @@ function useProducts() {
 function NavBar() {
   return (
     <nav>
+      <div className="logo">
+        <p>ShopEase</p>
+      </div>
       <ul>
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/clothes/men">Men</Link></li>
-        <li><Link to="/clothes/women">Women</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/contact">Contact</Link></li>
+        <li><NavLink to="/home" className={getActiveClass}>Home</NavLink></li>
+        <li><NavLink to="/clothes/men" className={({ isActive }) =>
+          isActive
+            ? "selected"
+            : ""
+        }>Men</NavLink></li>
+        <li><NavLink to="/clothes/women" className={({ isActive }) =>
+          isActive
+            ? "selected"
+            : ""
+        }>Women</NavLink></li>
+        <li><NavLink to="/about" className={({ isActive }) =>
+          isActive
+            ? "selected"
+            : ""
+        }>About</NavLink></li>
+        <li><NavLink to="/contact" className={({ isActive }) =>
+          isActive
+            ? "selected"
+            : ""
+        }>Contact</NavLink></li>
       </ul>
       <ul>
-        <li><Link to="/cart">Cart</Link></li>
-        <li><Link to="/login">Login</Link></li>
+        <li><NavLink to="/cart" className={({ isActive }) =>
+          isActive
+            ? "selected"
+            : ""
+        }>Cart</NavLink></li>
+        <li><NavLink to="/login" className={({ isActive }) =>
+          isActive
+            ? "selected"
+            : ""
+        }>Login</NavLink></li>
       </ul>
     </nav>
   );
@@ -42,8 +69,19 @@ function App() {
       <ProductsContext.Provider value={products}>
         <Outlet />
       </ProductsContext.Provider>
+      <Footer />
     </>
   );
 }
+function Footer() {
+  return (
+    <footer>
+      <p>&copy; 2023 Fashion Store. All rights reserved.</p>
+    </footer>
+  );
+}
+
+const getActiveClass = ({ isActive }) =>
+  (isActive ? " selected" : "");
 
 export { App, ProductsContext };

@@ -1,7 +1,7 @@
 import { Children } from "react";
 import {App} from "./App";
 import ErrorPage from "./ErrorPage";
-import Home from "./Home.jsx";
+import {Home} from "./Home.jsx";
 import {Items, ProductDetail} from "./Items.jsx";
 import Contact from "./Contact.jsx";
 import About from "./About.jsx";

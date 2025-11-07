@@ -2,14 +2,21 @@
 
 function Home() {
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the main landing page of the application.</p>
+    <HeroSection />
+  );
+}
+
+function HeroSection() {
+  return (
+    <div className="hero-section">
+      <img src="src/assets/sales.jpg" alt="Fashion Hero" />
+      <div>
+        <h1>Discover the Latest Fashion Trends</h1>
+        <p>Explore our collection of stylish clothing for men and women.</p>
+      </div>
     </div>
   );
 }
 
 
-
-
-export default Home;
+export { Home, HeroSection };
